@@ -13,5 +13,10 @@ module.exports = function() {
             path:'/block',
             handler:controller.createBlock
         },
+        {
+            methed: 'POST',
+            path: '/requestValidation',
+            handler:controller.requestValidation
+        },
     ];
 }();
