@@ -1,0 +1,162 @@
+{
+	"info": {
+		"_postman_id": "f2d79761-1702-4e9e-a788-56c14bd0a471",
+		"name": "simpleBlockchain",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getBlockbyHeight",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8000/block/{{height}}",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"block",
+						"{{height}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createBlock",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"address\": \"{{walletAddress}}\",\n    \"star\": {\n            \"dec\": \"68° 52' 56.9\",\n            \"ra\": \"16h 29m 1.0s\",\n            \"story\": \"Found star using https://www.google.com/sky/\"\n        }\n}"
+				},
+				"url": {
+					"raw": "localhost:8000/block",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"block"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "requestValidation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"address\":\"{{walletAddress}}\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8000/requestValidation",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"requestValidation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "validate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"address\":\"{{walletAddress}}\",\n \"signature\":\"{{signature}}\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8000/validate",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"validate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBlockbyHash",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8000/stars/hash:{{hash}}",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"stars",
+						"hash:{{hash}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBlockbyWalletAddress",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8000/stars/address:{{walletAddress}}",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"stars",
+						"address:{{walletAddress}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
