@@ -6,39 +6,44 @@ const TimeoutMempoolValidWindowTime = 30*60*1000;
 class Mempool {
 
     constructor() {
-        this.mempool = [],
-        this.timeoutRequests = [],
-        this.mempoolValid = [],
-        this.timeoutMempoolValid = []
+        this.requestPool = [],
+        this.requestTimeoutPool = [],
+        this.validRequestPool = [],
+        this.validRequestTimeoutPool = []
     }
 
-    addARequestValidation( walletAddress ){
-        this.mempool[ walletAddress ] = new RequestObject( walletAddress );
-        this.setTimeOut( walletAddress );
+    //functions for simple requests
+    addRequestToPool( walletAddress ){
+        let request = new RequestObject( walletAddress );
+        this.requestPool.push( request );
+        this.setRequestTimeout( request );
 
-        return this.mempool[ walletAddress ];
+        return request;
     }
 
-    setTimeOut( walletAddress ){
+    setRequestTimeout( request ){
         let self = this;
-        this.timeoutRequests[ request.walletAddress ] = setTimeout(
+        this.requestTimeoutPool[ request.walletAddress ] = setTimeout(
             function(){
-                self.removeValidationRequest( walletAddress )
+                self.removeRequestFromPool( request )
             },
-            TimeoutRequestsWindowTime );
+            request.validationWindow );
     }
 
-    removeValidationRequest( walletAddess ){
-        this.mempool.splice( walletAddess, 1);
+    removeRequestFromPool( walletAddress ){
+        let requestIndex = this.requestPool.findIndex(request => request.walletAddress == walletAddress)
+        this.requestPool.splice( requestIndex, 1);
     }
 
-    verifyTimeLeft(){
-
+    clearRequestTimeout( walletAddress ){
+        clearTimeout(requestTimeoutPool[ walletAddress ]);
     }
 
-    removeTimeout(){
-
+    getRequestByWalletAddress( walletAddress ){
+        return this.requestPool.find(request => request.walletAddress == walletAddress);
     }
+
+    //functions for valid requests
 }
 
 module.exports = Mempool;
