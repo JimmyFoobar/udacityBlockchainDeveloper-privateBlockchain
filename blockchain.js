@@ -67,7 +67,7 @@ class Blockchain{
         newBlock.time = new Date().getTime().toString().slice(0,-3);
         // previous block hash
         if(newBlock.height>0){
-            let prevBlock = await this.getBlock(newBlock.height -1);
+            let prevBlock = await this.getBlockByHeight(newBlock.height -1);
             newBlock.previousBlockHash = prevBlock.hash;
         }
         newBlock.hash = SHA256(JSON.stringify(newBlock)).toString();
@@ -79,7 +79,7 @@ class Blockchain{
     }
 
     // get block
-    async getBlock(blockHeight){
+    async getBlockByHeight(blockHeight){
         // return object as a single string
         try{
             let block = await this.db.get(blockHeight);
@@ -87,6 +87,60 @@ class Blockchain{
         }catch(err) {
             throw new Error('Block #'+blockHeight +' could not be found in DB');
         }
+    }
+
+    async getBlockByHash(hash) {
+        let self = this;
+        let block = null;
+        let search = new Promise(function(resolve, reject){
+            self.db.createReadStream()
+                .on('data', function (data) {
+                    let tempBlock = JSON.parse(data.value);
+                    if(tempBlock.hash === hash){
+                        block = tempBlock;
+                    }
+                })
+                .on('error', function (err) {
+                    reject(err)
+                })
+                .on('close', function () {
+                    resolve(block);
+                });
+        });
+
+        try{
+            block = await search;
+        }catch(err){
+            console.log(err);
+        }
+        return  block;
+    }
+
+    async getBlockByWalletAddress(address) {
+        let self = this;
+        let block = null;
+        let search = new Promise(function(resolve, reject){
+            self.db.createReadStream()
+                .on('data', function (data) {
+                    let tempBlock = JSON.parse(data.value);
+                    if(tempBlock.body.address === address){
+                        block = tempBlock;
+                    }
+                })
+                .on('error', function (err) {
+                    reject(err)
+                })
+                .on('close', function () {
+                    resolve(block);
+                });
+        });
+
+        try{
+            block = await search;
+        }catch(err){
+            console.log(err);
+        }
+        return  block;
     }
 
     //validate single block
@@ -108,11 +162,11 @@ class Blockchain{
     //validates if a block is correctly chained to the predecessor
     async validateBlockInChain(blockHeight){
         try{
-            let block = await this.getBlock(blockHeight);
+            let block = await this.getBlockByHeight(blockHeight);
             let isValid = this.validateBlock(block);
 
             if (isValid){
-                let prevBlock = await this.getBlock(blockHeight - 1);
+                let prevBlock = await this.getBlockByHeight(blockHeight - 1);
                 if (prevBlock.hash===block.previousBlockHash) {
                     return true;
                 } else {

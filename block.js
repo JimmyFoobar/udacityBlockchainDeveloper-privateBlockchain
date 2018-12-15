@@ -1,14 +1,22 @@
-class Block {
-    constructor(data) {
+const hex2ascii = require('hex2ascii');
 
-        if (data == "" || data == null) {
-            throw new Error("Empty blocks are useless. Please provide some data");
-        }
-        this.hash = "",
-        this.height = 0,
-        this.body = data,
-        this.time = 0,
-        this.previousBlockHash = ""
+class Block {
+    constructor( walletAddress, star) {
+
+        star.story = Buffer(star.story).toString('hex');
+        this.hash = "";
+        this.height = 0;
+        this.body = {};
+        this.body.address = walletAddress;
+        this.body.star = star;
+        this.time = 0;
+        this.previousBlockHash = "";
+    }
+
+    decode(){
+        let tempBlock = this;
+        tempBlock.body.star.storyDecoded = hex2ascii(tempBlock.body.star.story);
+        return tempBlock;
     }
 }
 

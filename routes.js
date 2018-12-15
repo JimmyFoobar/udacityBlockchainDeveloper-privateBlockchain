@@ -14,9 +14,24 @@ module.exports = function() {
             handler:controller.createBlock
         },
         {
-            methed: 'POST',
+            method: 'POST',
             path: '/requestValidation',
-            handler:controller.requestValidation
+            handler:controller.addRequest
+        },
+        {
+            method: 'POST',
+            path: '/validate',
+            handler:controller.validate
+        },
+        {
+            method: 'GET',
+            path: '/stars/hash:{hash}',
+            handler:controller.getBlockByHash
+        },
+        {
+            method: 'GET',
+            path: '/stars/address:{address}',
+            handler:controller.getBlockByWalletAddress
         },
     ];
 }();
