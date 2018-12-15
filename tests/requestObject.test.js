@@ -19,8 +19,26 @@ test('requestObject.constructor',() => {
 test('requestObject.updateValidationWindow', async () =>{
 
     let request = new RequestObject( 'walletAddress' );
-    await sleep(2000);
+    await sleep(1000);
    request.updateValidationWindow();
-   expect(request.validationWindow).toBe(298);
+   expect(request.validationWindow).toBe(299);
+
+});
+
+test('requestObject.isValidateSignature_success', async () =>{
+
+    let request = new RequestObject( '1GbMqNEhJQjZKEuGMij2k1JimrxBTTqKfB' );
+    request.message = "1GbMqNEhJQjZKEuGMij2k1JimrxBTTqKfB:timeStamp:starRegistry";
+    let signature = "Hz6xUHP5Pl9Ng8JdFenGaUG2AH9KDwFPKTN51H0YakZjLtHaCp+n6L9Na/G74FwSCzDSb8B5c5yC6s8WA34h+eI=";
+    expect(request.isValidateSignature( signature )).toBeTruthy();
+
+});
+
+test('requestObject.isValidateSignature_fail', async () =>{
+
+    let request = new RequestObject( '1GbMqNEhJQjZKEuGMij2k1JimrxBTTqKfB' );
+    request.message = "1GbMqNEhJQjZKEuGMij2k1JimrxBTTqKfB:timeStamp:starRegistry";
+    let signature = "Hz6xUHP5Pl9Ng8JdFenGaUG2AH9KDwFPKTN51H0YakZjLtHaCp+n6L9Na/G74FwSCzDSb8B5c5yC6s8WA34h123=";
+    expect(request.isValidateSignature( signature )).toBeFalsy();
 
 });
