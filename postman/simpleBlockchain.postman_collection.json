@@ -100,13 +100,13 @@
 					"raw": "{\n\"address\":\"{{walletAddress}}\",\n \"signature\":\"{{signature}}\"\n}"
 				},
 				"url": {
-					"raw": "localhost:8000/validate",
+					"raw": "localhost:8000/message-signature/validate",
 					"host": [
 						"localhost"
 					],
 					"port": "8000",
 					"path": [
-						"validate"
+						"message-signature/validate"
 					]
 				}
 			},
