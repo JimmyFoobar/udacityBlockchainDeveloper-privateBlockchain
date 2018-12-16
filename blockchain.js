@@ -23,7 +23,11 @@ class Blockchain{
             .then(function(height){
 
                 if(height==0){
-                    return self.addBlock(new Block("First block in the chain - Genesis block"));
+                    let star = {};
+                    star.ra = "";
+                    star.dec = "";
+                    star.story = "I'm the Genesis block - not a star";
+                    return self.addBlock(new Block("Genesis", star));
                 }
             });
     }
