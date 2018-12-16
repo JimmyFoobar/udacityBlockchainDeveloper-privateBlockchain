@@ -118,29 +118,29 @@ class Blockchain{
 
     async getBlockByWalletAddress(address) {
         let self = this;
-        let block = null;
+        let blockArray = [];
         let search = new Promise(function(resolve, reject){
             self.db.createReadStream()
                 .on('data', function (data) {
                     let tempBlock = JSON.parse(data.value);
                     if(tempBlock.body.address === address){
-                        block = tempBlock;
+                        blockArray.push(tempBlock);
                     }
                 })
                 .on('error', function (err) {
                     reject(err)
                 })
                 .on('close', function () {
-                    resolve(block);
+                    resolve(blockArray);
                 });
         });
 
         try{
-            block = await search;
+            blockArray = await search;
         }catch(err){
             console.log(err);
         }
-        return  block;
+        return  blockArray;
     }
 
     //validate single block

@@ -40,12 +40,17 @@ module.exports.getBlockByHash =  async function(request, reply) {
 module.exports.getBlockByWalletAddress =  async function(request, reply) {
     try {
 
-        let block =  await bc.getBlockByWalletAddress(request.params.address);
-        if( block== null){
+        let blockArray =  await bc.getBlockByWalletAddress(request.params.address);
+        if( blockArray.length == 0){
             throw Boom.badData("No block found for wallet address: " + request.params.address);
         }
-        Object.setPrototypeOf(block, Block.prototype);
-        return block.decode();
+
+        let newBlockArray = blockArray.map((block)=>{
+            Object.setPrototypeOf(block, Block.prototype);
+            return block.decode();
+        })
+
+        return newBlockArray;
     }
     catch (err) {
         console.log(err);
