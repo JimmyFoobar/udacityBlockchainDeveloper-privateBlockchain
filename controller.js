@@ -66,6 +66,11 @@ module.exports.createBlock = async function(request,reply) {
 
     let walletAddress = requestData.address;
     let star = requestData.star;
+    //validate start
+    if(star.dec == undefined || star.ra == undefined || star.story == undefined){
+        throw Boom.badData('The provided information about the star are not complete.');
+    }
+
     let validRequest = mem.getValidRequestByWalletAddress( walletAddress );
     if( validRequest == null){
         throw Boom.badData("No valid Request found for walletAddress: " + walletAddress);
@@ -75,6 +80,7 @@ module.exports.createBlock = async function(request,reply) {
         let blockCandidate = new Block(walletAddress, star);
         let newBlock = await bc.addBlock(blockCandidate);
         Object.setPrototypeOf(newBlock, Block.prototype);
+        mem.removeValidRequestFromPool(validRequest.status.address);
         return newBlock.decode();
     }
     catch (err) {

@@ -20,7 +20,7 @@ module.exports = function() {
         },
         {
             method: 'POST',
-            path: '/validate',
+            path: '/message-signature/validate',
             handler:controller.validate
         },
         {
